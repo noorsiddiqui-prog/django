@@ -142,10 +142,10 @@ class CustomerView(APIView):
     
     
     def get(self, request, pk=None, format=None):
-        
-        if pk is not None:
+        id=pk
+        if id is not None:
             try:
-                candidates = Customer.objects.get(pk=pk)
+                candidates = Customer.objects.get(id=pk)
                 self.check_object_permissions(self.request, candidates)
                 serializer = CustomerSerializer(candidates )
                 return Response({'status': 'success', 'candidate': serializer.data},
@@ -154,7 +154,7 @@ class CustomerView(APIView):
             except Customer.DoesNotExist:
                 raise Http404
         
-        candidates=Customer.objects.filter(room = request.user)
+        candidates=Customer.objects.filter(customer = request.user)
         serializer=CustomerSerializer(candidates, many=True)
         return Response({'status': 'success', 'candidate':serializer.data},
                                 status=status.HTTP_200_OK)
