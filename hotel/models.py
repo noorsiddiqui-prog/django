@@ -105,6 +105,7 @@ class Customer(models.Model):
     cus_email=models.EmailField(max_length=255, unique=True)
     cus_password = models.CharField(max_length=50)
     room= models.ForeignKey(Room, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Customer id: "+str(self.id)
