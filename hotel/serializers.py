@@ -71,9 +71,10 @@ class BookingsSerializer(serializers.ModelSerializer):
         fields =  ['id', 'room_no', 'customer', 'start_date', 'end_date', 'booked_on']
              
 class CustomerSerializer(serializers.ModelSerializer):
+    customer = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Customer
-        fields =  ['id', 'room', 'cus_name', 'cus_cnic', 'cus_username', 'cus_email', 'cus_password']
+        fields =  ['id', 'room', 'cus_name', 'cus_cnic', 'cus_username', 'cus_email', 'cus_password', 'customer']
         
         
 class PaymentSerializer(serializers.ModelSerializer):
