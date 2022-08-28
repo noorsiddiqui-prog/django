@@ -6,12 +6,15 @@ from rest_framework import status, viewsets
 # from django.contrib.auth.models import User
 from django.http import Http404
 from portal.permissions import IsOwner
+# from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
-
+# from rest_framework import generics
+# from rest_framework.generics import(ListCreateAPIView , RetrieveUpdateDestroyAPIView)
 
 class portalRegisterAPIView(APIView):
     serializer_class = UserPortalRegisterSerializer
@@ -46,18 +49,20 @@ class PortalLogOutAPIView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         
-        
 
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-
+    
 class HotelAdminView(APIView):
     
     serializer_class = HotelAdminSerializer
     permission_classes = [IsAuthenticated ,IsOwner]
+    
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id', 'city']
+    # queryset = HotelAdmin.objects.all
+    # filter_backends = [SearchFilter]
+    # search_fields = ['city']
+    
+    
     
     def post(self, request, format=None):
         serializer = HotelAdminSerializer(data=request.data, context = {'request' : request})
@@ -70,6 +75,7 @@ class HotelAdminView(APIView):
         return Response(serializer.errors)
     
     def get(self, request, pk=None, format=None):
+        
         id = pk
         if id is not None:
             try:
@@ -427,3 +433,32 @@ class FoodView(APIView):
     #     return Response(status=status.HTTP_204_NO_CONTENT)
    
    
+        
+
+
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+# class HotelAdminView(ListCreateAPIView):
+#     serializer_class = HotelAdminSerializer
+#     permission_classes = [IsAuthenticated ,IsOwner]
+#     lookup_fields = ('id')
+
+    
+#     def get_queryset(self):
+#         queryset = HotelAdmin.objects.filter(admin=self.request.user)
+#         return queryset
+    
+# class HotelAdminView(RetrieveUpdateDestroyAPIView):
+#     serializer_class = HotelAdminSerializer
+#     permission_classes = [IsAuthenticated ,IsOwner]
+#     lookup_fields = ('id')
+
+    
+#     def get_queryset(self):
+#         queryset = HotelAdmin.objects.filter(admin=self.request.user)
+#         return queryset   
+    
+    

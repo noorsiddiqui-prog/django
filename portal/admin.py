@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HotelAdmin, Room
+from .models import HotelAdmin, Room, Food
 # from rest_framework import routers, serializers, viewsets
 # # Register your models here.
 
@@ -9,8 +9,14 @@ from .models import HotelAdmin, Room
 
 @admin.register(HotelAdmin)
 class HotelModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'email', 'location', 'images', 'ratings', 'city', 'description', 'password']
+    list_display = ['id', 'name', 'email', 'location', 'images', 'ratings', 'city', 'description', 'password', 'admin']
     
 @admin.register(Room)
 class RoomModelAdmin(admin.ModelAdmin):
-    list_display =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images']
+    list_display =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images', 'admin']
+    
+
+
+@admin.register(Food)
+class FoodModelAdmin(admin.ModelAdmin):
+    list_display =  ['id', 'food_name', 'food_price','food_type', 'hotel_no', 'food_image', 'admin']

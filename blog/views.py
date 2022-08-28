@@ -6,6 +6,9 @@ from rest_framework import status, viewsets
 # from django.contrib.auth.models import User
 from django.http import Http404
 from blog.permissions import IsOwner
+from rest_framework.filters import SearchFilter
+# from django_filters.rest_framework import DjangoFilterBackend
+
 
 
 
@@ -59,6 +62,11 @@ class BlogLogOutAPIView(APIView):
 class BlogView(APIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated , IsOwner]
+    
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['id', 'blog_title']
+    filter_backends = [SearchFilter]
+    search_fields = ['blog_title']
     
     def post(self, request, format=None):
         serializer = BlogSerializer(data=request.data, context = {'request' : request})
