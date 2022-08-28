@@ -61,11 +61,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
         
 class BlogSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Blog
-        fields =  ['id', 'blog_title', 'blog_content', 'blog_image', 'blog_date']
+        fields =  ['id', 'blog_title', 'blog_content', 'blog_image', 'blog_date', 'user']
         
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Comments
-        fields =  ['id', 'comment_content', 'blog_no']
+        fields =  ['id', 'comment_content', 'blog_no', 'user']

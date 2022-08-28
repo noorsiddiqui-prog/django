@@ -1,6 +1,7 @@
 
 from rest_framework import serializers
 from hotel.models import Bookings, Payments, Customer, Payments
+from rest_framework.validators import UniqueValidator
 # from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
@@ -71,15 +72,17 @@ class BookingsSerializer(serializers.ModelSerializer):
         fields =  ['id', 'room_no', 'customer', 'start_date', 'end_date', 'booked_on']
              
 class CustomerSerializer(serializers.ModelSerializer):
-    customer = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    customer = serializers.HiddenField(default=serializers.CurrentUserDefault(),)
     class Meta:
         model = Customer
         fields =  ['id', 'room', 'cus_name', 'cus_cnic', 'cus_username', 'cus_email', 'cus_password', 'customer']
         
         
 class PaymentSerializer(serializers.ModelSerializer):
-    # bookings_no = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    
+    bookings_no = Bookings.objects.all()
+    customer = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Payments
-        fields =  ['id', 'bookings_no', 'payment_date', 'payment_amount', 'payment_type']
+        fields =  ['id', 'bookings_no', 'payment_date', 'payment_amount', 'payment_type', 'customer']
         

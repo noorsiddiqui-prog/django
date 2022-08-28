@@ -1,6 +1,6 @@
 
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth import get_user_model
 
@@ -21,11 +21,11 @@ class HotelAdmin(models.Model):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=200)
     password = models.CharField(max_length=50)
-    password2 = models.CharField(max_length=50)
+    # password2 = models.CharField(max_length=50)
     # available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
     # def nameFile(instance, filename):
     #     return '/'.join(['HotelImages', str(instance.name), filename])
     
@@ -43,7 +43,7 @@ class Room(models.Model):
     is_available = models.BooleanField(default=True)
     price = models.IntegerField(default=0)
     room_images = models.ImageField(blank=True, upload_to='RoomImages' )
-    
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Room No: "+str(self.id)
@@ -56,7 +56,7 @@ class Food(models.Model):
     food_type = models.CharField(max_length=255)
     hotel_no = models.ForeignKey(HotelAdmin, on_delete=models.CASCADE)
     food_image=models.ImageField(blank=True, upload_to='FoodImages' )
-
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return "Food name: "+str(self.food_name)
     

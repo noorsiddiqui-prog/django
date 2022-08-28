@@ -64,10 +64,11 @@ class UserPortalRegisterSerializer(serializers.ModelSerializer):
 class HotelAdminSerializer(serializers.ModelSerializer):
     # password2 = serializers.CharField(style={'input_type' : 'password'}, write_only = True)
     # bookings_no = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = HotelAdmin
-        fields =  ['id', 'name', 'email', 'location', 'images', 'ratings', 'city', 'description', 'password', 'password2']
+        fields =  ['id', 'name', 'email', 'location', 'images', 'ratings', 'city', 'description', 'password',  'admin']
         extra_kwargs = {
             'password' : {'write_only' : True, 'required' : True},
             'password2' : {'write_only' : True, 'required' : True}
@@ -90,15 +91,17 @@ class HotelAdminSerializer(serializers.ModelSerializer):
         
 
 class RoomSerializer(serializers.ModelSerializer):
+    admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Room
-        fields =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images']
+        fields =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images', 'admin']
         
         
        
 class FoodSerializer(serializers.ModelSerializer):
+    admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Food
-        fields =  ['id', 'food_name', 'food_price', 'food_type', 'hotel_no', 'food_image']
+        fields =  ['id', 'food_name', 'food_price', 'food_type', 'hotel_no', 'food_image', 'admin']
         
        

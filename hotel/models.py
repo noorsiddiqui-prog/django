@@ -135,6 +135,7 @@ class Payments(models.Model):
     payment_date = models.DateTimeField(auto_now=True, auto_now_add=False)
     payment_amount = models.IntegerField()
     payment_type = models.CharField(max_length=255)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Payment id: "+str(self.id)
