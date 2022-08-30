@@ -94,7 +94,7 @@ class RoomSerializer(serializers.ModelSerializer):
     admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Room
-        fields =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images', 'admin']
+        fields =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'room_price', 'room_images', 'admin']
         
         
        
