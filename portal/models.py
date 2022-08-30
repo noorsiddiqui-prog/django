@@ -41,7 +41,7 @@ class Room(models.Model):
     beds = models.PositiveIntegerField(default=2)
     room_description = models.TextField(max_length=255)
     is_available = models.BooleanField(default=True)
-    price = models.IntegerField(default=0)
+    room_price = models.IntegerField()
     room_images = models.ImageField(blank=True, upload_to='RoomImages' )
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
