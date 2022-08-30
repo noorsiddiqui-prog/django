@@ -13,6 +13,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from rest_framework import generics
+
+import django_filters
+from django_filters import rest_framework as filters
+from django_filters import FilterSet, RangeFilter
+
+
+
+
 # from rest_framework import generics
 # from rest_framework.generics import(ListCreateAPIView , RetrieveUpdateDestroyAPIView)
 
@@ -49,6 +58,22 @@ class PortalLogOutAPIView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         
+
+
+
+
+
+
+
+
+class HotelAdminList(generics.ListAPIView):
+    queryset = HotelAdmin.objects.all()
+    serializer_class = HotelAdminSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['ratings', 'city']
+
+
+
 
     
 class HotelAdminView(APIView):
@@ -182,8 +207,53 @@ class HotelAdminView(APIView):
     #     candidates = HotelAdmin.objects.get(pk=id)
     #     candidates.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
-        
-     
+
+
+
+
+# class FoodPriceFilter(filters.FilterSet):
+#     food_price = filters.RangeFilter()
+
+#     class Meta:
+#         model = Food
+#         fields = ['food_price']
+# # qs = Food.objects.all().order_by('food_price')
+# # f = FoodPriceFilter( queryset=qs)
+
+
+
+
+
+# class FoodList(generics.ListAPIView):
+#     queryset = Food.objects.all()
+#     serializer_class = FoodSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['food_name', 'food_type', 'food_price']
+#     filterset_class = FoodPriceFilter
+
+
+    
+    
+    
+    
+    
+class RoomPriceFilter(filters.FilterSet):
+    room_price = filters.RangeFilter()
+    
+    class Meta:
+        model = Room
+        fields = ['room_price']
+
+class RoomList(generics.ListAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['room', 'room_type', 'room_price', 'is_available']    
+    filterset_class = RoomPriceFilter
+
+    
+    
+    
 
         
 class RoomView(APIView):
@@ -308,7 +378,39 @@ class RoomView(APIView):
     #     candidates.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
             
-    
+
+
+
+
+
+
+
+# class FoodPriceFilter(filters.FilterSet):
+#     food_price = filters.RangeFilter()
+
+#     class Meta:
+#         model = Food
+#         fields = ['food_price']
+# qs = Food.objects.all().order_by('food_price')
+# f = FoodPriceFilter( queryset=qs)
+
+
+
+
+
+class FoodList(generics.ListAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['food_name', 'food_type', 'food_price']
+    # filterset_class = FoodPriceFilter
+
+
+
+
+
+
+
 class FoodView(APIView):
     serializer_class = FoodSerializer
     permission_classes = [IsAuthenticated , IsOwner]
