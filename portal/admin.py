@@ -13,7 +13,7 @@ class HotelModelAdmin(admin.ModelAdmin):
     
 @admin.register(Room)
 class RoomModelAdmin(admin.ModelAdmin):
-    list_display =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'price', 'room_images', 'admin']
+    list_display =  ['id', 'hotel', 'room','room_type', 'beds', 'room_description', 'is_available', 'room_price', 'room_images', 'admin']
     
 
 
