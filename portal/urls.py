@@ -19,17 +19,22 @@ urlpatterns = [
     # path('manager/', include('portal.urls')),
     path('room/', views.RoomView.as_view(), name='room'),
     path('room/<int:pk>/', views.RoomView.as_view(), name='room'),
+    path('room/list/', views.RoomList.as_view(), name='room-list-view'),
+
     
   
     
     path('food/', views.FoodView.as_view(), name='food'),
     path('food/<int:pk>/', views.FoodView.as_view(), name='food-list'),
-    
+    path('food/list/', views.FoodList.as_view(), name='food-list-view'),
+
     
     path('hotelprofile/', views.HotelAdminView.as_view(), name='hotelprofile'),
     path('hotelprofile/<int:pk>/', views.HotelAdminView.as_view(), name='list'),
     path('hotelprofilelogin' , TokenObtainPairView.as_view(), name='login'),
     path('hotelprofile/refresh-token' , TokenRefreshView.as_view(), name='refrehtoken'),
+    path('hotelprofile/list/', views.HotelAdminList.as_view(), name='hotel-list-view'),
+
 
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
