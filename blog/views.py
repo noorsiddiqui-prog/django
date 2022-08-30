@@ -7,10 +7,11 @@ from rest_framework import status, viewsets
 from django.http import Http404
 from blog.permissions import IsOwner
 from rest_framework.filters import SearchFilter
-# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
+from rest_framework import status, viewsets, generics
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -58,15 +59,31 @@ class BlogLogOutAPIView(APIView):
         
 
 
+
+
+
+
+
     
+class BlogList(generics.ListAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['blog_date']
+
+
+
 class BlogView(APIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated , IsOwner]
     
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['id', 'blog_title']
-    filter_backends = [SearchFilter]
-    search_fields = ['blog_title']
+    # filter_backends = [SearchFilter]
+    filter_fields = ('category',)
+    search_fields = ('blog_title')
+    # ordering_fields=()
+    
     
     def post(self, request, format=None):
         serializer = BlogSerializer(data=request.data, context = {'request' : request})
@@ -313,3 +330,12 @@ class CommentView(APIView):
     #     candidates = Comments.objects.get(pk=id)
     #     candidates.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+    
+    
+# class BlogList(generics.ListAPIView):
+#     queryset = Blog.objects.all()
+#     serializer_class = BlogSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['blog_date']
