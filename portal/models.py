@@ -33,11 +33,20 @@ class HotelAdmin(models.Model):
         return self.name
 
 
+
+
+class RoomTypes(models.Model):
+    room_type = models.CharField(max_length=100)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+
+
 class Room(models.Model):
     
     hotel = models.ForeignKey(HotelAdmin, on_delete=models.CASCADE)
     room = models.CharField(max_length=10, unique=True)
-    room_type = models.CharField(max_length=100)
+    room_type = models.ForeignKey(RoomTypes ,on_delete=models.CASCADE)
     beds = models.PositiveIntegerField(default=2)
     room_description = models.TextField(max_length=255)
     is_available = models.BooleanField(default=True)
