@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from portal.models import HotelAdmin,  Room, Food
+from portal.models import HotelAdmin,  Room, Food, RoomTypes
 # from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
@@ -89,7 +89,12 @@ class HotelAdminSerializer(serializers.ModelSerializer):
         def create(self, validated_data):
             return HotelAdmin
         
-
+class RoomTypesSerializer(serializers.ModelSerializer):
+    admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        model = RoomTypes
+        fields =  ['id', 'room_type', 'admin']
+        
 class RoomSerializer(serializers.ModelSerializer):
     admin = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
