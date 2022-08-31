@@ -22,6 +22,12 @@ urlpatterns = [
     path('room/list/', views.RoomList.as_view(), name='room-list-view'),
 
     
+    path('roomtypes/', views.RoomTypesView.as_view(), name='roomtypes'),
+    path('roomtypes/<int:pk>/', views.RoomTypesView.as_view(), name='roomtypes'),
+
+    path('roomtypes/list/', views.RoomTypesList.as_view(), name='roomtypes-list-view'),
+
+    
   
     
     path('food/', views.FoodView.as_view(), name='food'),
