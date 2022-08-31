@@ -45,7 +45,8 @@ urlpatterns = [
     
     path('bookings/', views.BookingsView.as_view(), name='bookings'),
     path('bookings/<int:pk>/', views.BookingsView.as_view(), name='bookings-list'),
-    
+    path('bookings/list/', views.BookingsList.as_view(), name='bookings-list-view'),
+
 
     
     path('payments/', views.PaymentView.as_view(), name='payments'),
