@@ -1,6 +1,6 @@
 from rest_framework.response import Response
-from portal.models import HotelAdmin, Room, Food
-from portal.serializers import HotelAdminSerializer, RoomSerializer, FoodSerializer, UserPortalRegisterSerializer
+from portal.models import HotelAdmin, Room, Food, RoomTypes
+from portal.serializers import HotelAdminSerializer, RoomSerializer, FoodSerializer, UserPortalRegisterSerializer, RoomTypesSerializer
 from rest_framework.views import APIView
 from rest_framework import status, viewsets
 # from django.contrib.auth.models import User
@@ -330,8 +330,99 @@ class RoomView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+#==============RoomTypes==================
 
 
+# class RoomTypesPriceFilter(filters.FilterSet):
+#     room_price = filters.RangeFilter()
+    
+#     class Meta:
+#         model = RoomTypes
+#         fields = ['room_price']
+
+class RoomTypesList(generics.ListAPIView):
+    queryset = RoomTypes.objects.all()
+    serializer_class = RoomTypesSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [ 'room_type']    
+
+    
+    
+    
+
+        
+class RoomTypesView(APIView):
+    serializer_class = RoomTypesSerializer
+    permission_classes = [IsAuthenticated , IsOwner]
+
+    def post(self, request, format=None):
+        serializer = RoomTypesSerializer(data=request.data, context = {'request' : request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg' : 'Room is booked Successfully',
+                             'status': 'success', 'candidate': serializer.data},
+                            status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors)
+
+
+    def get(self, request, pk=None, format=None):
+        id = pk
+        if id is not None:
+            try:
+                candidates = RoomTypes.objects.get(pk=id)
+                self.check_object_permissions(self.request, candidates)
+                serializer = RoomTypesSerializer(candidates)
+                return Response({'status': 'success', 'candidate': serializer.data},
+                                status=status.HTTP_200_OK)
+                # return candidates
+            except RoomTypes.DoesNotExist:
+                raise Http404
+
+        candidates = RoomTypes.objects.filter(admin=request.user)
+        serializer = RoomTypesSerializer(candidates, many=True)
+        return Response({'status': 'success', 'candidate': serializer.data},
+                        status=status.HTTP_200_OK)
+
+    def get_object(self, pk):
+        try:
+            obj = RoomTypes.objects.get(pk=pk)
+            self.check_object_permissions(self.request, obj)
+            return obj
+        except RoomTypes.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk, format=None):
+        candidates = self.get_object(pk)
+        # snippet = self.get_object(pk)
+        serializer = self.serializer_class(
+            candidates, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            serialized_data = serializer.data
+            # return Response(serializer.data)
+            return Response({'msg': 'Complete Data Updated'}, serialized_data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, format=None):
+
+        candidates = self.get_object(pk)
+        # snippet = self.get_object(pk)
+        serializer = self.serializer_class(
+            candidates, data=request.data, partial=True, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            serialized_data = serializer.data
+            # return Response(serializer.data)
+            return Response({'msg': 'Complete Data Updated'}, serialized_data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        candidates = RoomTypes.objects.get(pk=pk)
+        # candidates = self.get_object(pk=pk)
+        self.check_object_permissions(self.request, candidates)
+        candidates.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
