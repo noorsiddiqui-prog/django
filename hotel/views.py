@@ -9,6 +9,26 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from hotel.permissions import IsOwner
 
+from rest_framework import generics
+# from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+import django_filters
+from django_filters import rest_framework as filters
+from django_filters import FilterSet, RangeFilter
+
+from django_filters import DateRangeFilter,DateFilter
+
+
+
+
+
+
+
+
+
+
+
+
 
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
@@ -46,6 +66,39 @@ class LogOutAPIView(APIView):
             return Response(status=status.HTTP_200_CREATED)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+# class BookingsDateFilter(django_filters.FilterSet):
+# #     event_dates = DateExactRangeFilter()
+#     start_date = DateFilter(field_name ='start_date',lookup_expr =('gt'),) 
+#     end_date = DateFilter(field_name ='end_date',lookup_expr =('lt'))
+#     class Meta:
+#         model = Bookings
+#         fields = ['start_date', 'end_date']
+        
+# #         # fields = [
+# #         #     'event_dates',
+#         # ]
+
+
+
+
+
+
+class BookingsList(generics.ListAPIView):
+    queryset = Bookings.objects.all()
+    serializer_class = BookingsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['start_date', 'end_date', 'booked_on', 'customer', 'room_type', 'city']
+    # filterset_class = BookingsDateFilter
+
+
+
+
+
 
 
 class BookingsView(APIView):
