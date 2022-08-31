@@ -1,7 +1,7 @@
 
 from tkinter import CASCADE
 from django.db import models
-from portal.models import Room, HotelAdmin
+from portal.models import Room, HotelAdmin, RoomTypes
 # from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth import get_user_model
@@ -113,12 +113,15 @@ class Customer(models.Model):
     
     
 class Bookings(models.Model):
-    room_no = models.ForeignKey(Room, on_delete=models.CASCADE)
+    # room_no = models.ForeignKey(Room, on_delete=models.CASCADE)
     # customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
     end_date = models.DateField(auto_now=False, auto_now_add=False)
     booked_on = models.DateTimeField(auto_now=True, auto_now_add=False)
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    city = models.ForeignKey(HotelAdmin, on_delete=models.CASCADE) #actually it is fetching hotel id not city maybe need to change later
+    room_type = models.ForeignKey(RoomTypes, on_delete=models.CASCADE)
+    
     #customer id, room id, amount
     
     def __str__(self):
@@ -133,7 +136,7 @@ class Bookings(models.Model):
 class Payments(models.Model):
     bookings_no=models.ForeignKey(Bookings, on_delete=models.CASCADE)
     payment_date = models.DateTimeField(auto_now=True, auto_now_add=False)
-    payment_amount = models.IntegerField()
+    payment_amount = models.IntegerField()                                  #maybe need to add or convert it into ro0m_price
     payment_type = models.CharField(max_length=255)
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
 
