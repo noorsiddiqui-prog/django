@@ -69,7 +69,7 @@ class BookingsSerializer(serializers.ModelSerializer):
     # room_no = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Bookings
-        fields =  ['id', 'room_no', 'customer', 'start_date', 'end_date', 'booked_on']
+        fields =  ['id', 'customer', 'start_date', 'end_date', 'booked_on', 'room_type', 'city']
              
 class CustomerSerializer(serializers.ModelSerializer):
     customer = serializers.HiddenField(default=serializers.CurrentUserDefault(),)
