@@ -51,5 +51,8 @@ urlpatterns = [
     path('api/register/', BlogRegisterAPIView.as_view()),
     
     
+    path('users/list/', views.UserList.as_view(), name='users-list-view'),
+    
+    
     path('auth/', obtain_auth_token),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

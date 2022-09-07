@@ -19,6 +19,8 @@ from django_filters import FilterSet, RangeFilter
 from django_filters import DateRangeFilter,DateFilter
 
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 
@@ -33,6 +35,15 @@ from django_filters import DateRangeFilter,DateFilter
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
 #     serializer_class = UserSerializer
+
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+
+
+
 
 class RegisterAPIView(APIView):
     serializer_class = UserRegisterSerializer

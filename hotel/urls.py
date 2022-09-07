@@ -38,8 +38,12 @@ urlpatterns = [
     path('customer/<int:pk>/', views.CustomerView.as_view(), name='customer-list'),
     
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/<int:pk>/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout', LogOutAPIView.as_view(), name='logout_view'),
+    
+    path('users/list/', views.UserList.as_view(), name='users-list-view'),
     
     path('api/register/', RegisterAPIView.as_view()),
     

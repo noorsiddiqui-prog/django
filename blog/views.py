@@ -17,11 +17,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
 #     serializer_class = UserSerializer
+
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = BlogUserRegisterSerializer
+
      
 class BlogRegisterAPIView(APIView):
     serializer_class = BlogUserRegisterSerializer

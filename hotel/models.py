@@ -1,5 +1,4 @@
 
-from tkinter import CASCADE
 from django.db import models
 from portal.models import Room, HotelAdmin, RoomTypes
 # from django.contrib.auth.models import User

@@ -18,12 +18,20 @@ from rest_framework import generics
 import django_filters
 from django_filters import rest_framework as filters
 from django_filters import FilterSet, RangeFilter
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 
 
 # from rest_framework import generics
 # from rest_framework.generics import(ListCreateAPIView , RetrieveUpdateDestroyAPIView)
+
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserPortalRegisterSerializer
 
 class portalRegisterAPIView(APIView):
     serializer_class = UserPortalRegisterSerializer

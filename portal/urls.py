@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('roomtypes/list/', views.RoomTypesList.as_view(), name='roomtypes-list-view'),
 
+
+    path('users/list/', views.UserList.as_view(), name='users-list-view'),
     
   
     
